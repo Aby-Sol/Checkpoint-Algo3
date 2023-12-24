@@ -1,0 +1,51 @@
+FUNCTION translation (Tab,x,New) : array
+VAR
+    l: INTEGER := length (Tab);
+BEGIN
+// Placing the new card and moving the other cards to the right
+// Starting from the right to avoid using a Temporary value
+WHILE (l > x) DO
+ Tab[l] := Tab [l-1];
+ l:= l-1
+END_WHILE
+    Tab[x] := New;
+    RETURN Tab ;
+END
+
+ALGORITHM cards
+VAR
+    Tab : ARRAY_OF INTEGER;
+    temp,i,j,n,m,New,x:INTEGER:=0;
+BEGIN
+ // Drawing and putting the cards in an array
+    Write ("How many cards do you wish to draw ?")
+    Read (n)
+    FOR i FROM 0 TO (n-1) STEP 1  DO
+        REPEAT
+            write ("enter the value of card number",i);
+            read (Tab[i]);     
+        UNTIL (Tab [i] in [1..10])  
+    END_FOR
+ // Sorting the cards 
+    FOR j FROM 1 TO n STEP 1  DO
+        FOR i  FROM j TO n-j-1 STEP 1  DO
+            if (Tab(i)) < (tab[i-1]) then
+                temp:= Tab[i];
+                Tab[i]:=Tab[i-1];
+                Tab[i-1]:=temp;
+            End_if
+        END_FOR
+
+    END_FOR
+ // Drawing another card
+    REPEAT
+        write ("Enter the value of the new card you want to place");
+        read (New);     
+    UNTIL (New in [1..10])  
+ // Finding where to place the new card in the array
+    WHILE (New > Tab [x]) DO
+        x:= x+1;
+    END_WHILE
+ // Placing the new card and moving the other cards to the right
+    Translation (Tab,x,New)
+END
